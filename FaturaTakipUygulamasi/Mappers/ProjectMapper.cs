@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FaturaTakipUygulamasi.Models;
 using FaturaTakipUygulamasi.ViewModels.Auth;
+using FaturaTakipUygulamasi.ViewModels.Faturalar;
 
 namespace FaturaTakipUygulamasi.Mappers
 {
@@ -12,6 +13,7 @@ namespace FaturaTakipUygulamasi.Mappers
         public ProjectMapper()
         {
             CreateMap<Uye, RegisterVM>().ReverseMap();
+            CreateMap<Fatura, FaturaListeleVM>().ForMember(dest => dest.Musteri, opt => opt.MapFrom(src => src.Musteri.AdSoyad)).ReverseMap();
         }
     }
 }

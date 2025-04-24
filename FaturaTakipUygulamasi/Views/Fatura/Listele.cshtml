@@ -1,0 +1,56 @@
+﻿@model IEnumerable<FaturaTakipUygulamasi.ViewModels.Faturalar.FaturaListeleVM>
+
+@{
+    ViewData["Title"] = "Listele";
+}
+
+<div class="container bg-white p-4 shadow rounded">
+    <h2 class="mb-4">Kitap Yönetimi</h2>
+    <p>
+        <a asp-action="Ekle">Fatura Ekle</a>
+    </p>
+    <table class="table table-bordered table-striped text-center align-middle">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FaturaNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FaturaTarihi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ToplamTutar)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Musteri)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <input type="hidden" asp-for="@item.FaturaId" />
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FaturaNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FaturaTarihi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToplamTutar)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Musteri)
+                    </td>
+                    <td>
+                        <a asp-route-id="@item.FaturaId" asp-action="Guncelle" class="btn btn-primary mt-2">Güncelle</a> <br />
+                        <form asp-action="Sil" asp-route-id="@item.FaturaId" method="post" onsubmit="return confirm('Emin misiniz?')" style="display:inline;">
+                            <button type="submit" class="btn btn-danger mt-2">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

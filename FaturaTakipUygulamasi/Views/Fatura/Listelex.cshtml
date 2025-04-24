@@ -1,0 +1,110 @@
+﻿@model IEnumerable<FaturaTakipUygulamasi.ViewModels.Faturalar.FaturaListeleVM>
+<div class="container bg-white p-4 shadow rounded">
+    <h2 class="mb-4">Kitap Yönetimi</h2>
+
+    <!-- ✅ Kayıt Ekleme Formu -->
+    @* <form id="bookForm" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" id="title" class="form-control" placeholder="Kitap Adı" required>
+        </div>
+        <div class="col-md-4">
+            <select id="author" class="form-control" placeholder="Yazar Adı" required></select>
+        </div>
+        <div class="col-md-3">
+            <input type="text" id="publisher" class="form-control" placeholder="Yayınevi" required>
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-success w-100">Ekle</button>
+        </div>
+    </form> *@
+
+    <!-- ✅ Listeleme Tablosu (Read) -->
+    <table class="table table-bordered table-striped text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FaturaNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FaturaTarihi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Musteri)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ToplamTutar)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FaturaNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FaturaTarihi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Musteri)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToplamTutar) TL
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    let books = [];
+    let idCounter = 1;
+
+    const bookForm = document.getElementById('bookForm');
+    const bookTableBody = document.getElementById('bookTableBody');
+
+    // ✅ Yeni Kitap Ekle
+    // bookForm.addEventListener('submit', function (e) {
+    //     e.preventDefault();
+
+    //     const title = document.getElementById('title').value;
+    //     const author = document.getElementById('author').value;
+    //     const publisher = document.getElementById('publisher').value;
+
+    //     books.push({ id: idCounter++, title, author, publisher });
+    //     renderTable();
+    //     bookForm.reset();
+    // });
+
+    // ✅ Tabloyu Yeniden Çiz
+    function renderTable() {
+        bookTableBody.innerHTML = '';
+
+        books.forEach(book => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                        <td>${book.id}</td>
+                        <td><input value="${book.title}" class="form-control" onchange="updateBook(${book.id}, 'title', this.value)" /></td>
+                        <td><input value="${book.author}" class="form-control" onchange="updateBook(${book.id}, 'author', this.value)" /></td>
+                        <td><input value="${book.publisher}" class="form-control" onchange="updateBook(${book.id}, 'publisher', this.value)" /></td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="deleteBook(${book.id})">Sil</button>
+                        </td>
+                    `;
+            bookTableBody.appendChild(row);
+        });
+    }
+
+    // ✅ Güncelle
+    function updateBook(id, field, value) {
+        const book = books.find(b => b.id === id);
+        if (book) book[field] = value;
+    }
+
+    // ✅ Sil
+    function deleteBook(id) {
+        books = books.filter(b => b.id !== id);
+        renderTable();
+    }
+</script>

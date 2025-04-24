@@ -10,8 +10,8 @@ namespace FaturaTakipUygulamasi.Repositories
     /// <typeparam name="TEntity"></typeparam>
     public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private readonly FaturaDbContext context;
-        private readonly DbSet<TEntity> table;
+        protected readonly FaturaDbContext context; // türeyen sınıfların bu field ları kullanabilmeleri için protected olarak tanımlanıyor.
+        protected readonly DbSet<TEntity> table;
 
         public BaseRepository(FaturaDbContext _context)
         {
